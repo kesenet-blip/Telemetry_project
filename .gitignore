@@ -1,0 +1,26 @@
+# Visual Studio / C#
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Flutter / Dart
+.dart_tool/
+**/.dart_tool/
+**/build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+
+# IDE
+.idea/
+.vscode/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs / temporary
+*.log
+*.tmp

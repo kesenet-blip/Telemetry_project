@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LmuTelemetryBridge": {
+      "commandName": "Project",
+      "commandLineArgs": "--mock"
+    }
+  }
+}
