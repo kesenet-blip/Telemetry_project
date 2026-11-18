@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace LmuTelemetryBridge;
 
@@ -151,17 +152,17 @@ internal sealed unsafe class LmuSharedMemorySource : ITelemetrySource
 
         for (var spin = 0; spin < 4000; spin++)
         {
-            if (Native.InterlockedCompareExchange(ref data->Busy, 1, 0) == 0) return true;
+            if (Interlocked.CompareExchange(ref data->Busy, 1, 0) == 0) return true;
             Thread.SpinWait(4);
         }
 
-        Native.InterlockedIncrement(ref data->Waiters);
+        Interlocked.Increment(ref data->Waiters);
         try
         {
             var started = Environment.TickCount64;
             while (true)
             {
-                if (Native.InterlockedCompareExchange(ref data->Busy, 1, 0) == 0) return true;
+                if (Interlocked.CompareExchange(ref data->Busy, 1, 0) == 0) return true;
 
                 var elapsed = (uint)Math.Min(uint.MaxValue, Environment.TickCount64 - started);
                 if (elapsed >= timeoutMs) return false;
@@ -170,14 +171,14 @@ internal sealed unsafe class LmuSharedMemorySource : ITelemetrySource
         }
         finally
         {
-            Native.InterlockedDecrement(ref data->Waiters);
+            Interlocked.Decrement(ref data->Waiters);
         }
     }
 
     private void ReleaseLock()
     {
         var data = (LockData*)_lockView;
-        Native.InterlockedExchange(ref data->Busy, 0);
+        Interlocked.Exchange(ref data->Busy, 0);
         if (Volatile.Read(ref data->Waiters) > 0) Native.SetEvent(_lockEvent!);
     }
 
