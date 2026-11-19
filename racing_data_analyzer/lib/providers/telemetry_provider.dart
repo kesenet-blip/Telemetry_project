@@ -18,20 +18,17 @@ class TelemetryNotifier extends Notifier<TelemetryData> {
   }
 
   void startTestMode() {
-    _startSource(
-      TelemetryTestService(),
-    );
+    _startSource(TelemetryTestService());
   }
 
-  void startLiveMode() {
-    _startSource(
-      TelemetryWebSocketService(),
-    );
+  void startLiveMode({String host = '127.0.0.1', int port = 8181}) {
+    final url = 'ws://$host:$port/telemetry';
+
+    _startSource(TelemetryWebSocketService(url: url));
   }
 
   void _startSource(TelemetrySource source) {
     _source?.dispose();
-
     _source = source;
 
     source.start(
@@ -44,7 +41,6 @@ class TelemetryNotifier extends Notifier<TelemetryData> {
   void stop() {
     _source?.stop();
     _source = null;
-
     state = const TelemetryData.empty();
   }
 
@@ -61,7 +57,6 @@ class TelemetryNotifier extends Notifier<TelemetryData> {
   }
 }
 
-final telemetryProvider =
-    NotifierProvider<TelemetryNotifier, TelemetryData>(
+final telemetryProvider = NotifierProvider<TelemetryNotifier, TelemetryData>(
   TelemetryNotifier.new,
 );

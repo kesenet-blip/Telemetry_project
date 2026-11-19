@@ -31,7 +31,7 @@ class DashboardPage extends ConsumerWidget {
     return Scaffold(
       body: Row(
         children: [
-          const AppSidebar(),
+          const AppSidebar(selectedPage: 'dashboard'),
 
           Expanded(
             child: SingleChildScrollView(
@@ -51,12 +51,8 @@ class DashboardPage extends ConsumerWidget {
                           children: [
                             Text(
                               'Dashboard',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: Theme.of(context).textTheme.headlineMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
 
                             const SizedBox(height: 8),
@@ -87,10 +83,7 @@ class DashboardPage extends ConsumerWidget {
                       //
                       // SESSION INFO
                       //
-                      _InfoBadge(
-                        label: 'LAP',
-                        value: telemetry.lap.toString(),
-                      ),
+                      _InfoBadge(label: 'LAP', value: telemetry.lap.toString()),
 
                       const SizedBox(width: 10),
 
@@ -121,9 +114,7 @@ class DashboardPage extends ConsumerWidget {
                     children: [
                       FilledButton.icon(
                         onPressed: () {
-                          ref
-                              .read(telemetryProvider.notifier)
-                              .startTestMode();
+                          ref.read(telemetryProvider.notifier).startTestMode();
                         },
                         icon: const Icon(Icons.science_outlined),
                         label: const Text('START TEST'),
@@ -131,9 +122,7 @@ class DashboardPage extends ConsumerWidget {
 
                       FilledButton.icon(
                         onPressed: () {
-                          ref
-                              .read(telemetryProvider.notifier)
-                              .startLiveMode();
+                          ref.read(telemetryProvider.notifier).startLiveMode();
                         },
                         icon: const Icon(Icons.sensors),
                         label: const Text('LIVE LMU'),
@@ -141,9 +130,7 @@ class DashboardPage extends ConsumerWidget {
 
                       OutlinedButton.icon(
                         onPressed: () {
-                          ref
-                              .read(telemetryProvider.notifier)
-                              .stop();
+                          ref.read(telemetryProvider.notifier).stop();
                         },
                         icon: const Icon(Icons.stop),
                         label: const Text('STOP'),
@@ -151,9 +138,7 @@ class DashboardPage extends ConsumerWidget {
 
                       TextButton.icon(
                         onPressed: () {
-                          ref
-                              .read(telemetryProvider.notifier)
-                              .reset();
+                          ref.read(telemetryProvider.notifier).reset();
                         },
                         icon: const Icon(Icons.refresh),
                         label: const Text('RESET'),
@@ -229,8 +214,7 @@ class DashboardPage extends ConsumerWidget {
 
                       TelemetryCard(
                         title: 'Brake',
-                        value:
-                            '${(telemetry.brake * 100).toStringAsFixed(0)}',
+                        value: '${(telemetry.brake * 100).toStringAsFixed(0)}',
                         unit: '%',
                         icon: Icons.compress,
                         accentColor: Colors.redAccent,
@@ -273,12 +257,11 @@ class DashboardPage extends ConsumerWidget {
                         value: telemetry.fuel.toStringAsFixed(1),
                         unit: 'L',
                         icon: Icons.local_gas_station,
-                        accentColor:
-                            fuelPercent < 0.15
-                                ? Colors.redAccent
-                                : null,
-                        active: telemetry.fuelCapacity > 0 &&
-                            fuelPercent < 0.15,
+                        accentColor: fuelPercent < 0.15
+                            ? Colors.redAccent
+                            : null,
+                        active:
+                            telemetry.fuelCapacity > 0 && fuelPercent < 0.15,
                       ),
 
                       const SizedBox(width: 16),
@@ -296,8 +279,9 @@ class DashboardPage extends ConsumerWidget {
 
                       TelemetryCard(
                         title: 'State of Charge',
-                        value: (telemetry.stateOfCharge * 100)
-                            .toStringAsFixed(0),
+                        value: (telemetry.stateOfCharge * 100).toStringAsFixed(
+                          0,
+                        ),
                         unit: '%',
                         icon: Icons.battery_charging_full,
                         accentColor: Colors.cyanAccent,
@@ -343,8 +327,7 @@ class DashboardPage extends ConsumerWidget {
 
                       TelemetryCard(
                         title: 'Virtual Energy',
-                        value: telemetry.virtualEnergy
-                            .toStringAsFixed(2),
+                        value: telemetry.virtualEnergy.toStringAsFixed(2),
                         unit: '',
                         icon: Icons.bolt,
                       ),
@@ -353,9 +336,7 @@ class DashboardPage extends ConsumerWidget {
 
                       TelemetryCard(
                         title: 'Lap Status',
-                        value: telemetry.lapInvalidated
-                            ? 'INVALID'
-                            : 'VALID',
+                        value: telemetry.lapInvalidated ? 'INVALID' : 'VALID',
                         unit: '',
                         icon: telemetry.lapInvalidated
                             ? Icons.warning_amber
@@ -386,10 +367,7 @@ class DashboardPage extends ConsumerWidget {
 }
 
 class _InfoBadge extends StatelessWidget {
-  const _InfoBadge({
-    required this.label,
-    required this.value,
-  });
+  const _InfoBadge({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -397,16 +375,11 @@ class _InfoBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 10,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: const Color(0xFF171A20),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.06),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

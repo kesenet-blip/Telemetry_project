@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'features/dashboard/dashboard_page.dart';
+import 'features/settings/settings_page.dart';
 
 class RacingDataAnalyzerApp extends StatelessWidget {
   const RacingDataAnalyzerApp({super.key});
@@ -18,7 +19,11 @@ class RacingDataAnalyzerApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color(0xFF101114),
       ),
-      home: const DashboardPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const DashboardPage(),
+        '/settings': (context) => const SettingsPage(),
+      },
     );
   }
 }
