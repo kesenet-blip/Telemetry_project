@@ -1,10 +1,16 @@
 class TelemetryData {
   const TelemetryData({
+    required this.timestamp,
+    required this.source,
+    required this.vehicleId,
     required this.speed,
     required this.rpm,
+    required this.maxRpm,
     required this.gear,
     required this.throttle,
     required this.brake,
+    required this.steering,
+    required this.clutch,
     required this.delta,
     required this.vehicle,
     required this.vehicleModel,
@@ -28,13 +34,22 @@ class TelemetryData {
     required this.activeVehicles,
   });
 
+  // Frame metadata
+  final DateTime? timestamp;
+  final String source;
+
+  // Vehicle identity
+  final int vehicleId;
+
   // Basic telemetry
   final double speed;
   final int rpm;
+  final double maxRpm;
   final String gear;
-
   final double throttle;
   final double brake;
+  final double steering;
+  final double clutch;
   final double delta;
 
   // Vehicle / track
@@ -76,30 +91,36 @@ class TelemetryData {
   final int activeVehicles;
 
   const TelemetryData.empty()
-      : speed = 0,
-        rpm = 0,
-        gear = 'N',
-        throttle = 0,
-        brake = 0,
-        delta = 0,
-        vehicle = '',
-        vehicleModel = '',
-        track = '',
-        lap = 0,
-        sector = 0,
-        fuel = 0,
-        fuelCapacity = 0,
-        tc = 0,
-        tcMax = 0,
-        tcActive = false,
-        abs = 0,
-        absMax = 0,
-        absActive = false,
-        stateOfCharge = 0,
-        regenKw = 0,
-        virtualEnergy = 0,
-        lapInvalidated = false,
-        gapAhead = 0,
-        gapBehind = 0,
-        activeVehicles = 0;
+    : timestamp = null,
+      source = '',
+      vehicleId = 0,
+      speed = 0,
+      rpm = 0,
+      maxRpm = 0,
+      gear = 'N',
+      throttle = 0,
+      brake = 0,
+      steering = 0,
+      clutch = 0,
+      delta = 0,
+      vehicle = '',
+      vehicleModel = '',
+      track = '',
+      lap = 0,
+      sector = 0,
+      fuel = 0,
+      fuelCapacity = 0,
+      tc = 0,
+      tcMax = 0,
+      tcActive = false,
+      abs = 0,
+      absMax = 0,
+      absActive = false,
+      stateOfCharge = 0,
+      regenKw = 0,
+      virtualEnergy = 0,
+      lapInvalidated = false,
+      gapAhead = 0,
+      gapBehind = 0,
+      activeVehicles = 0;
 }

@@ -7,9 +7,7 @@ import '../models/telemetry_data.dart';
 import 'telemetry_source.dart';
 
 class TelemetryWebSocketService implements TelemetrySource {
-  TelemetryWebSocketService({
-    this.url = 'ws://127.0.0.1:8181/telemetry',
-  });
+  TelemetryWebSocketService({this.url = 'ws://127.0.0.1:8181/telemetry'});
 
   final String url;
 
@@ -22,9 +20,7 @@ class TelemetryWebSocketService implements TelemetrySource {
   bool get isRunning => _isRunning;
 
   @override
-  void start({
-    required void Function(TelemetryData data) onData,
-  }) {
+  void start({required void Function(TelemetryData data) onData}) {
     if (_isRunning) {
       return;
     }
@@ -32,9 +28,7 @@ class TelemetryWebSocketService implements TelemetrySource {
     _isRunning = true;
 
     try {
-      _channel = WebSocketChannel.connect(
-        Uri.parse(url),
-      );
+      _channel = WebSocketChannel.connect(Uri.parse(url));
 
       _subscription = _channel!.stream.listen(
         (message) {
@@ -60,92 +54,48 @@ class TelemetryWebSocketService implements TelemetrySource {
             };
 
             final data = TelemetryData(
-              speed: _asDouble(
-                decoded['speedKmh'],
-              ),
-              rpm: _asDouble(
-                decoded['rpm'],
-              ).round(),
+              timestamp: _asDateTime(decoded['timestamp']),
+              source: _asString(decoded['source']),
+              vehicleId: _asInt(decoded['vehicleId']),
+              speed: _asDouble(decoded['speedKmh']),
+              rpm: _asDouble(decoded['rpm']).round(),
+              maxRpm: _asDouble(decoded['maxRpm']),
               gear: gear,
 
-              throttle: _asDouble(
-                decoded['throttle'],
-              ),
-              brake: _asDouble(
-                decoded['brake'],
-              ),
-              delta: _asDouble(
-                decoded['deltaBest'],
-              ),
+              throttle: _asDouble(decoded['throttle']),
+              brake: _asDouble(decoded['brake']),
+              steering: _asDouble(decoded['steering']),
+              clutch: _asDouble(decoded['clutch']),
+              delta: _asDouble(decoded['deltaBest']),
 
-              vehicle: _asString(
-                decoded['vehicle'],
-              ),
-              vehicleModel: _asString(
-                decoded['model'],
-              ),
-              track: _asString(
-                decoded['track'],
-              ),
+              vehicle: _asString(decoded['vehicle']),
+              vehicleModel: _asString(decoded['model']),
+              track: _asString(decoded['track']),
 
-              lap: _asInt(
-                decoded['lap'],
-              ),
-              sector: _asInt(
-                decoded['sector'],
-              ),
+              lap: _asInt(decoded['lap']),
+              sector: _asInt(decoded['sector']),
 
-              fuel: _asDouble(
-                decoded['fuel'],
-              ),
-              fuelCapacity: _asDouble(
-                decoded['fuelCapacity'],
-              ),
+              fuel: _asDouble(decoded['fuel']),
+              fuelCapacity: _asDouble(decoded['fuelCapacity']),
 
-              tc: _asInt(
-                decoded['tc'],
-              ),
-              tcMax: _asInt(
-                decoded['tcMax'],
-              ),
-              tcActive: _asBool(
-                decoded['tcActive'],
-              ),
+              tc: _asInt(decoded['tc']),
+              tcMax: _asInt(decoded['tcMax']),
+              tcActive: _asBool(decoded['tcActive']),
 
-              abs: _asInt(
-                decoded['abs'],
-              ),
-              absMax: _asInt(
-                decoded['absMax'],
-              ),
-              absActive: _asBool(
-                decoded['absActive'],
-              ),
+              abs: _asInt(decoded['abs']),
+              absMax: _asInt(decoded['absMax']),
+              absActive: _asBool(decoded['absActive']),
 
-              stateOfCharge: _asDouble(
-                decoded['stateOfCharge'],
-              ),
-              regenKw: _asDouble(
-                decoded['regenKw'],
-              ),
-              virtualEnergy: _asDouble(
-                decoded['virtualEnergy'],
-              ),
+              stateOfCharge: _asDouble(decoded['stateOfCharge']),
+              regenKw: _asDouble(decoded['regenKw']),
+              virtualEnergy: _asDouble(decoded['virtualEnergy']),
 
-              lapInvalidated: _asBool(
-                decoded['lapInvalidated'],
-              ),
+              lapInvalidated: _asBool(decoded['lapInvalidated']),
 
-              gapAhead: _asDouble(
-                decoded['gapAhead'],
-              ),
-              gapBehind: _asDouble(
-                decoded['gapBehind'],
-              ),
+              gapAhead: _asDouble(decoded['gapAhead']),
+              gapBehind: _asDouble(decoded['gapBehind']),
 
-              activeVehicles: _asInt(
-                decoded['activeVehicles'],
-              ),
+              activeVehicles: _asInt(decoded['activeVehicles']),
             );
 
             onData(data);
@@ -197,6 +147,13 @@ class TelemetryWebSocketService implements TelemetrySource {
     }
 
     return '';
+  }
+
+  DateTime? _asDateTime(dynamic value) {
+    if (value is String) {
+      return DateTime.tryParse(value);
+    }
+    return null;
   }
 
   void _cleanupConnection() {

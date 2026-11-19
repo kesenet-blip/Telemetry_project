@@ -48,7 +48,18 @@ class _BridgeConnectionPanelState extends State<BridgeConnectionPanel> {
   }
 
   void _connect() {
-    final host = _hostController.text.trim();
+    var host = _hostController.text.trim();
+    host = host
+        .replaceFirst(RegExp(r'^https?://'), '')
+        .replaceFirst(RegExp(r'^wss?://'), '');
+
+    if (host.contains('/')) {
+      host = host.split('/').first;
+    }
+
+    if (host.contains(':')) {
+      host = host.split(':').first;
+    }
     final port = int.tryParse(_portController.text.trim());
 
     if (host.isEmpty) {

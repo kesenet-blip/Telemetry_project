@@ -238,7 +238,10 @@ internal sealed class WebSocketBroadcastServer : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         _serverCts?.Cancel();
-        _listener.Stop();
+        if (_listener.IsListening)
+            {
+                _listener.Stop();
+            }
 
         if (_acceptLoop is not null)
         {
