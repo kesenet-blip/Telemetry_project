@@ -74,6 +74,30 @@ class TelemetryDiagnosticsPanel extends StatelessWidget {
                       ? '${(telemetry.clutch * 100).toStringAsFixed(1)} %'
                       : '-',
                 ),
+                _DiagnosticItem(
+                  label: 'CURRENT LAP',
+                  value: _formatLapTime(telemetry.currentLapTimeSeconds),
+                ),
+                _DiagnosticItem(
+                  label: 'LAST LAP',
+                  value: _formatLapTime(telemetry.lastLapTimeSeconds),
+                ),
+                _DiagnosticItem(
+                  label: 'BEST LAP',
+                  value: _formatLapTime(telemetry.bestLapTimeSeconds),
+                ),
+                _DiagnosticItem(
+                  label: 'SECTOR 1',
+                  value: _formatLapTime(telemetry.sector1TimeSeconds),
+                ),
+                _DiagnosticItem(
+                  label: 'SECTOR 2',
+                  value: _formatLapTime(telemetry.sector2TimeSeconds),
+                ),
+                _DiagnosticItem(
+                  label: 'SECTOR 3',
+                  value: _formatLapTime(telemetry.sector3TimeSeconds),
+                ),
               ],
             ),
           ],
@@ -93,6 +117,17 @@ class TelemetryDiagnosticsPanel extends StatelessWidget {
         '${_twoDigits(local.minute)}:'
         '${_twoDigits(local.second)}.'
         '${local.millisecond.toString().padLeft(3, '0')}';
+  }
+
+  static String _formatLapTime(double? seconds) {
+    if (seconds == null || seconds < 0) {
+      return '-';
+    }
+
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds - (minutes * 60);
+
+    return '$minutes:${remainingSeconds.toStringAsFixed(3).padLeft(6, '0')}';
   }
 
   static String _twoDigits(int value) {

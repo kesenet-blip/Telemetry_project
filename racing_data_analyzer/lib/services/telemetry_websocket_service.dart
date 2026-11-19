@@ -74,8 +74,26 @@ class TelemetryWebSocketService implements TelemetrySource {
 
               lap: _asInt(decoded['lap']),
               sector: _asInt(decoded['sector']),
-
+              currentLapTimeSeconds: _asNullableDouble(
+                decoded['currentLapTimeSeconds'],
+              ),
+              lastLapTimeSeconds: _asNullableDouble(
+                decoded['lastLapTimeSeconds'],
+              ),
+              bestLapTimeSeconds: _asNullableDouble(
+                decoded['bestLapTimeSeconds'],
+              ),
+              sector1TimeSeconds: _asNullableDouble(
+                decoded['sector1TimeSeconds'],
+              ),
+              sector2TimeSeconds: _asNullableDouble(
+                decoded['sector2TimeSeconds'],
+              ),
+              sector3TimeSeconds: _asNullableDouble(
+                decoded['sector3TimeSeconds'],
+              ),
               fuel: _asDouble(decoded['fuel']),
+
               fuelCapacity: _asDouble(decoded['fuelCapacity']),
 
               tc: _asInt(decoded['tc']),
@@ -123,6 +141,14 @@ class TelemetryWebSocketService implements TelemetrySource {
     }
 
     return 0.0;
+  }
+
+  double? _asNullableDouble(dynamic value) {
+    if (value is num) {
+      return value.toDouble();
+    }
+
+    return null;
   }
 
   int _asInt(dynamic value) {

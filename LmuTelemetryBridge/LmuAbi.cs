@@ -14,7 +14,9 @@ internal static class LmuAbi
     internal const int LayoutSize = TelemetryOffset + 4 + MaxVehicles * TelemetryInfoSize;
 
     internal const int Id = 0;
+    internal const int ElapsedTime = 12;
     internal const int Lap = 20;
+    internal const int LapStartEt = 24;
     internal const int VehicleName = 32;
     internal const int TrackName = 96;
     internal const int LocalVelocity = 184;

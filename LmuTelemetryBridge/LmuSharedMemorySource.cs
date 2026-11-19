@@ -106,6 +106,24 @@ internal sealed unsafe class LmuSharedMemorySource : ITelemetrySource
             var speedKmh = Math.Sqrt(
                 velocityX * velocityX + velocityY * velocityY + velocityZ * velocityZ) * 3.6;
 
+            var elapsedTime = ReadDouble(
+                player,
+                LmuAbi.ElapsedTime);
+
+            var lapStartEt = ReadDouble(
+                player,
+                LmuAbi.LapStartEt);
+
+            double? currentLapTimeSeconds = null;
+
+            if (elapsedTime >= 0 &&
+                lapStartEt >= 0 &&
+                elapsedTime >= lapStartEt)
+            {
+                currentLapTimeSeconds =
+                    elapsedTime - lapStartEt;
+            }
+
             return new TelemetrySnapshot(
                 DateTimeOffset.UtcNow,
                 Name,
@@ -138,7 +156,16 @@ internal sealed unsafe class LmuSharedMemorySource : ITelemetrySource
                 ReadSingle(player, LmuAbi.VirtualEnergy),
                 player[LmuAbi.LapInvalidated] != 0,
                 ReadSingle(player, LmuAbi.GapAhead),
-                ReadSingle(player, LmuAbi.GapBehind));
+                ReadSingle(player, LmuAbi.GapBehind),
+
+                // A valódi lapidők a scoring adatblokkból érkeznek majd.
+                // Addig nem találunk ki LMU offseteket.
+                currentLapTimeSeconds,
+                null,
+                null,
+                null,
+                null,
+                null);
         }
         finally
         {

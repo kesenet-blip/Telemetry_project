@@ -24,6 +24,15 @@ internal sealed class MockTelemetrySource : ITelemetrySource
         var speed = Math.Clamp(55 + phase * 12 - brake * 145, 45, 335);
         var gear = speed switch { < 75 => 2, < 120 => 3, < 170 => 4, < 220 => 5, < 275 => 6, _ => 7 };
         var rpm = 4200 + (speed % 55) / 55.0 * 4300;
+        var mockLapDuration = 210.0;
+        var currentLapTime = seconds % mockLapDuration;
+
+        const double lastLapTime = 207.842;
+        const double bestLapTime = 205.327;
+
+        const double sector1Time = 64.812;
+        const double sector2Time = 74.221;
+        const double sector3Time = 68.809;
 
         return new TelemetrySnapshot(
             DateTimeOffset.UtcNow, Name, 1, 37, "Mock Hypercar", "LMH Test Model", "Circuit de la Sarthe",
@@ -31,7 +40,7 @@ internal sealed class MockTelemetrySource : ITelemetrySource
             throttle, brake, Math.Sin(seconds * 0.7) * 0.35, 0, 62.4 - seconds * 0.015, 90,
             Math.Sin(seconds * 0.25) * 0.8, 4, 10, throttle > 0.9 && speed < 120,
             3, 8, brake > 0.55, 0.71 - seconds * 0.0003, brake * 180, 47.2,
-            false, 1.842, 2.117);
+            false, 1.842, 2.117,currentLapTime, lastLapTime, bestLapTime, sector1Time, sector2Time, sector3Time);
     }
 
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;

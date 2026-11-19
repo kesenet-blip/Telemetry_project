@@ -56,6 +56,12 @@ class TelemetryTestService implements TelemetrySource {
 
           lap: 3,
           sector: 2,
+          currentLapTimeSeconds: 72.345,
+          lastLapTimeSeconds: 207.842,
+          bestLapTimeSeconds: 205.327,
+          sector1TimeSeconds: 64.812,
+          sector2TimeSeconds: 74.221,
+          sector3TimeSeconds: 68.809,
 
           fuel: 47.5,
           fuelCapacity: 90.0,

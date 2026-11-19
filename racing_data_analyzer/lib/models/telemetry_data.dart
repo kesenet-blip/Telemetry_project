@@ -17,6 +17,12 @@ class TelemetryData {
     required this.track,
     required this.lap,
     required this.sector,
+    required this.currentLapTimeSeconds,
+    required this.lastLapTimeSeconds,
+    required this.bestLapTimeSeconds,
+    required this.sector1TimeSeconds,
+    required this.sector2TimeSeconds,
+    required this.sector3TimeSeconds,
     required this.fuel,
     required this.fuelCapacity,
     required this.tc,
@@ -60,6 +66,13 @@ class TelemetryData {
   // Lap
   final int lap;
   final int sector;
+  final double? currentLapTimeSeconds;
+  final double? lastLapTimeSeconds;
+  final double? bestLapTimeSeconds;
+
+  final double? sector1TimeSeconds;
+  final double? sector2TimeSeconds;
+  final double? sector3TimeSeconds;
 
   // Fuel
   final double fuel;
@@ -108,6 +121,12 @@ class TelemetryData {
       track = '',
       lap = 0,
       sector = 0,
+      currentLapTimeSeconds = null,
+      lastLapTimeSeconds = null,
+      bestLapTimeSeconds = null,
+      sector1TimeSeconds = null,
+      sector2TimeSeconds = null,
+      sector3TimeSeconds = null,
       fuel = 0,
       fuelCapacity = 0,
       tc = 0,

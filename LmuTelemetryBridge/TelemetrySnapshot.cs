@@ -32,4 +32,10 @@ internal sealed record TelemetrySnapshot(
     double VirtualEnergy,
     bool LapInvalidated,
     double GapAhead,
-    double GapBehind);
+    double GapBehind,
+    double? CurrentLapTimeSeconds,
+    double? LastLapTimeSeconds,
+    double? BestLapTimeSeconds,
+    double? Sector1TimeSeconds,
+    double? Sector2TimeSeconds,
+    double? Sector3TimeSeconds);
