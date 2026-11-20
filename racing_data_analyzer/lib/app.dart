@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'features/dashboard/dashboard_page.dart';
+import 'features/sessions/sessions_page.dart';
 import 'features/settings/settings_page.dart';
 
 class RacingDataAnalyzerApp extends StatelessWidget {
@@ -22,6 +23,9 @@ class RacingDataAnalyzerApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const DashboardPage(),
+
+        '/sessions': (context) => const SessionsPage(),
+
         '/settings': (context) => const SettingsPage(),
       },
     );
